@@ -24,6 +24,13 @@ class BitsController < ApplicationController
         end
     end
 
+    def edit
+        @bit = Bit.find_by_id(params[:id])
+        if @bit.blank?
+            render plain: 'Not Found :(', status: :not_found
+        end
+    end
+    
     private
 
     def bit_params

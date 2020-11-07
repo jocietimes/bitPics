@@ -1,6 +1,19 @@
 require 'rails_helper'
 
 RSpec.describe BitsController, type: :controller do
+    describe "bits#edit action" do
+        it "should successfully show the edit form if the bit is found" do
+            bit = FactoryBot.create(:bit)
+            get :edit, params: { id: bit.id }
+            expect(response).to have_http_status(:success)
+        end
+
+        it "should return a 404 error message if the bit is not found" do
+            get :edit, params: { id: 'SWAG' }
+            expect(response).to have_http_status(:not_found)
+        end
+    end
+
     describe "bits#show action" do
         it "should successfully show the page if the bit is found" do
             bit = FactoryBot.create(:bit)
