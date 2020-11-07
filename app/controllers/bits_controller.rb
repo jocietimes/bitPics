@@ -1,4 +1,5 @@
 class BitsController < ApplicationController
+    before_action :authenticate_user!, only: [:new, :create]
 
     def index
     end
@@ -8,7 +9,7 @@ class BitsController < ApplicationController
     end
 
     def create
-        @bit = Bit.create(bit_params)
+        @bit = current_user.bits.create(bit_params)
         if @bit.valid?
             redirect_to root_path
         else
