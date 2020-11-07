@@ -1,6 +1,19 @@
 require 'rails_helper'
 
 RSpec.describe BitsController, type: :controller do
+    describe "bits#show action" do
+        it "should successfully show the page if the bit is found" do
+            bit = FactoryBot.create(:bit)
+            get :show, params: { id: bit.id }
+            expect(response).to have_http_status(:success)
+        end
+
+        it "should retunr a 404 error if the bit is not found" do
+            get :show, params: { id: 'TACOCAT' }
+            expect(response).to have_http_status(:not_found)
+        end
+    end
+    
     describe "bits#index action" do
         it "should successfully show the page" do
             get :index
@@ -15,11 +28,7 @@ RSpec.describe BitsController, type: :controller do
         end
 
         it "should sucessfully show the new form" do
-            user = User.create(
-                email:                 'fakeuser@gmail.com',
-                password:              'secretPassword',
-                password_confirmation: 'secretPassword'
-            )
+            user = FactoryBot.create(:user)
             sign_in user
         
 
@@ -33,13 +42,9 @@ RSpec.describe BitsController, type: :controller do
             post :create, params: {bit: { message: 'Hello!'} }
             expect(response).to redirect_to new_user_session_path
         end
-        
+
         it "should successfully create a new bit in our database" do
-            user = User.create(
-                email:                 'fakeuser@gmail.com',
-                password:              'secretPassword',
-                password_confirmation: 'secretPassword'
-            )
+            user = FactoryBot.create(:user)
             sign_in user
 
             post :create, params: {bit: { message: 'Hello!'} }
@@ -51,11 +56,7 @@ RSpec.describe BitsController, type: :controller do
         end
 
         it "should properly deal with validation errors" do
-            user = User.create(
-                email:                 'fakeuser@gmail.com',
-                password:              'secretPassword',
-                password_confirmation: 'secretPassword'
-            )
+            user = FactoryBot.create(:user)
             sign_in user
 
             bit_count = Bit.count
