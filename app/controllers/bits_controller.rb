@@ -1,4 +1,5 @@
 class BitsController < ApplicationController
+
     def index
     end
 
@@ -8,7 +9,11 @@ class BitsController < ApplicationController
 
     def create
         @bit = Bit.create(bit_params)
-        redirect_to root_path
+        if @bit.valid?
+            redirect_to root_path
+        else
+            render :new, status: :unprocessable_entity
+        end
     end
 
     private

@@ -67,3 +67,4 @@ end
 gem 'bootstrap', '~> 5.0.0.alpha1'
 gem 'jquery-rails'
 gem 'simple_form'
+gem 'devise'

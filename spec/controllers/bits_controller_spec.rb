@@ -23,5 +23,11 @@ RSpec.describe BitsController, type: :controller do
             bit = Bit.last
             expect(bit.message).to eq("Hello!")
         end
+
+        it "should properly deal with validation errors" do
+            post :create, params: { bit: {message: ''} }
+            expect(response).to have_http_status(:unprocessable_entity)
+            expect(Bit.count).to eq 0
+        end
     end 
 end
