@@ -2,6 +2,7 @@ class BitsController < ApplicationController
     before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
 
     def index
+        @bits = Bit.all
     end
 
     def new
@@ -53,7 +54,7 @@ class BitsController < ApplicationController
     private
 
     def bit_params
-        params.require(:bit).permit(:message)
+        params.require(:bit).permit(:message, :pics)
     end
 
     def render_not_found

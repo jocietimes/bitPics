@@ -1,1 +1,8 @@
 <h1>BITS!</h1>
+
+<% @bits.each do |bit| %>
+<div>
+    <%= bit.message %>
+    <%= image_tag bit.pics_url unless bit.pics_url == nil %>
+</div>
+<% end %>
