@@ -1,6 +1,29 @@
 require 'rails_helper'
 
 RSpec.describe BitsController, type: :controller do
+    describe "bits#update action" do
+        it "should allow users to successfully update bits" do
+            bit = FactoryBot.create(:bit, message: "Initial Value")
+            patch :update, params: { id: bit.id, bit: { message: 'Changed'} }
+            expect(response).to redirect_to root_path
+            bit.reload
+            expect(bit.message).to eq "Changed"
+        end
+
+        it "should have http 404 error if the bit cannot be found" do
+            patch :update, params: { id: "YOLOSWAG", bit: { message: 'Changed'} }
+            expect(response).to have_http_status(:not_found)
+        end
+
+        it "should render the edit form with an http status of unprocessable_entity" do
+            bit = FactoryBot.create(:bit, message: "Initial Value")
+            patch :update, params: { id: bit.id, bit: { message: ''} }
+            expect(response).to have_http_status(:unprocessable_entity)
+            bit.reload
+            expect(bit.message).to eq "Initial Value"
+        end
+    end
+
     describe "bits#edit action" do
         it "should successfully show the edit form if the bit is found" do
             bit = FactoryBot.create(:bit)
