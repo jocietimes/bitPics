@@ -1,5 +1,5 @@
 class BitsController < ApplicationController
-    before_action :authenticate_user!, only: [:new, :create]
+    before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
 
     def index
     end
@@ -25,11 +25,13 @@ class BitsController < ApplicationController
     def edit
         @bit = Bit.find_by_id(params[:id])
         return render_not_found if @bit.blank?
+        return user_ability if @bit.user != current_user
     end
 
     def update
         @bit = Bit.find_by_id(params[:id])
         return render_not_found if @bit.blank?
+        return user_ability if @bit.user != current_user
 
         @bit.update_attributes(bit_params)
         
@@ -43,6 +45,7 @@ class BitsController < ApplicationController
     def destroy
         @bit = Bit.find_by_id(params[:id])
         return render_not_found if @bit.blank?
+        return user_ability if @bit.user != current_user
         @bit.destroy
         redirect_to root_path
     end
@@ -55,6 +58,10 @@ class BitsController < ApplicationController
 
     def render_not_found
         render plain: 'Not Found :(', status: :not_found
+    end
+
+    def user_ability
+        render plain: 'Forbidden :(', status: :forbidden 
     end
 end
 
