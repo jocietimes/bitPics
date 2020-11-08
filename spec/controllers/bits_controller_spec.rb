@@ -1,6 +1,21 @@
 require 'rails_helper'
 
 RSpec.describe BitsController, type: :controller do
+    describe "bits#destroy action" do
+        it "should allow a user to destroy bits" do
+            bit = FactoryBot.create(:bit)
+            delete :destroy, params: { id: bit.id }
+            expect(response).to redirect_to root_path
+            bit = Bit.find_by_id(bit.id)
+            expect(bit).to eq nil
+        end
+        
+        it "should return a 404 message if we cannot find the bit with that id" do
+            delete :destroy, params: { id: 'SPACEDUCK' }
+            expect(response).to have_http_status(:not_found)
+        end
+    end
+
     describe "bits#update action" do
         it "should allow users to successfully update bits" do
             bit = FactoryBot.create(:bit, message: "Initial Value")

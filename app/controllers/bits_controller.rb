@@ -39,6 +39,13 @@ class BitsController < ApplicationController
             return render :edit, status: :unprocessable_entity
         end
     end
+
+    def destroy
+        @bit = Bit.find_by_id(params[:id])
+        return render_not_found if @bit.blank?
+        @bit.destroy
+        redirect_to root_path
+    end
     
     private
 
