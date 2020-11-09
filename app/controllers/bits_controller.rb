@@ -57,10 +57,6 @@ class BitsController < ApplicationController
         params.require(:bit).permit(:message, :pics)
     end
 
-    def render_not_found
-        render plain: 'Not Found :(', status: :not_found
-    end
-
     def user_ability
         render plain: 'Forbidden :(', status: :forbidden 
     end

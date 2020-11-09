@@ -152,7 +152,13 @@ RSpec.describe BitsController, type: :controller do
             user = FactoryBot.create(:user)
             sign_in user
 
-            post :create, params: {bit: { message: 'Hello!'} }
+            post :create, params: {
+                bit: { 
+                    message: 'Hello!',
+                    pics: fixture_file_upload("/sample.jpg", 'image/jpg')
+                    } 
+                }
+                
             expect(response).to redirect_to root_path
 
             bit = Bit.last
