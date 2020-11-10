@@ -1,8 +1,37 @@
-<h1>BITS!</h1>
+<div class="col-10 offset-1 col-sm-8 offset-sm-2 col-md-6 offset-md-3">
+    <% @bits.each do |bit| %>
+    <div class="card">
+        <div class="handle"><%= bit.user.email %></div>
+        <%= image_tag bit.pics_url unless bit.pics_url == nil %>
+        <p>
+        <%= bit.message %>
+        </p>
 
-<% @bits.each do |bit| %>
-<div>
-    <%= bit.message %>
-    <%= image_tag bit.pics_url unless bit.pics_url == nil %>
+        <div class="bit-actions float-right">
+            <% if current_user && current_user == bit.user %>
+                <%= link_to 'Edit', edit_bit_path(bit) %>
+                <%= link_to 'Destroy', bit_path(bit), method: :delete, data: {confirm: 'Are you sure?'} %>
+
+            <% end %>
+        </div>
+        <br class="clear-fix" />
+        <div class="comments">
+            <h3>Comments</h3>
+            <%= bit.comments.each do |comment| %>
+                <div class="comment">
+                    <span class="comment_handle">
+                        <%= comment.user.email %>
+                    </span>
+
+                    <%= comment.message %>
+                </div>
+            <% end %>
+            <h4>Add a comment</h4>
+            <%= simple_form_for Comment.new, url: bit_comments_path(bit) do |f| %>
+                <%= f.input :message %>
+                <%= f.submit 'Add Comment', class: 'my-btn' %>
+            <% end %>
+        </div>
+    </div>
+    <% end %>
 </div>
-<% end %>
