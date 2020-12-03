@@ -3,7 +3,7 @@
 BitPics is a clone of _Instagram_ built using the Ruby on Rails framework. Users are able to sign up and upload photos with captions, and comment on posts by users.  
   
   
-[View the deployed application](https://bitpics/jocelyn-mellein.herokuapp.com/)
+[View the deployed application](https://bitpics-jocelyn-mellein.herokuapp.com/)
 ___
 
 ### Features:
